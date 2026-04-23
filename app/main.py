@@ -7,7 +7,8 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
 from app.config import get_settings
-from app.routers import generic, guide, health, invoice
+from app.routers import generic, guide, health, invoice, playground
+from app.routers import xml as xml_router
 
 
 @asynccontextmanager
@@ -43,6 +44,8 @@ app.include_router(health.router)
 app.include_router(invoice.router)
 app.include_router(guide.router)
 app.include_router(generic.router)
+app.include_router(xml_router.router)
+app.include_router(playground.router)
 
 
 @app.get("/", tags=["system"])
@@ -52,4 +55,5 @@ async def root() -> dict:
         "version": settings.app_version,
         "docs": "/docs",
         "health": "/health",
+        "playground": "/playground",
     }
